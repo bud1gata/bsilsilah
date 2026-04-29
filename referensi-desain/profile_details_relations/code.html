@@ -1,0 +1,295 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-error-container": "#93000a",
+            "primary-container": "#131b2e",
+            "tertiary": "#725c00",
+            "secondary-fixed-dim": "#b7c8e1",
+            "error": "#ba1a1a",
+            "surface-dim": "#dcd9db",
+            "outline": "#76777d",
+            "on-error": "#ffffff",
+            "inverse-surface": "#303032",
+            "surface-variant": "#e4e2e4",
+            "inverse-primary": "#bec6e0",
+            "surface-container-low": "#f6f3f5",
+            "tertiary-fixed": "#ffe081",
+            "on-secondary": "#ffffff",
+            "surface-container-high": "#eae7e9",
+            "tertiary-container": "#cba829",
+            "inverse-on-surface": "#f3f0f2",
+            "background": "#fcf8fa",
+            "on-tertiary": "#ffffff",
+            "on-background": "#1b1b1d",
+            "on-primary-container": "#7c839b",
+            "surface": "#fcf8fa",
+            "surface-tint": "#565e74",
+            "surface-container": "#f0edef",
+            "on-secondary-container": "#54647a",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#bec6e0",
+            "tertiary-fixed-dim": "#e8c344",
+            "secondary-container": "#d0e1fb",
+            "on-surface-variant": "#45464d",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#e4e2e4",
+            "on-surface": "#1b1b1d",
+            "surface-container-lowest": "#ffffff",
+            "secondary-fixed": "#d3e4fe",
+            "on-primary-fixed": "#131b2e",
+            "on-tertiary-fixed": "#231b00",
+            "secondary": "#505f76",
+            "on-tertiary-container": "#4e3e00",
+            "on-primary-fixed-variant": "#3f465c",
+            "surface-bright": "#fcf8fa",
+            "on-tertiary-fixed-variant": "#564500",
+            "on-secondary-fixed-variant": "#38485d",
+            "outline-variant": "#c6c6cd",
+            "primary-fixed": "#dae2fd",
+            "on-secondary-fixed": "#0b1c30",
+            "primary": "#000000"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "tree-node-gap": "32px",
+            "container-max": "1280px",
+            "sm": "12px",
+            "md": "24px",
+            "base": "8px",
+            "lg": "48px",
+            "xl": "80px",
+            "xs": "4px"
+          },
+          "fontFamily": {
+            "label-sm": ["Manrope"],
+            "h1": ["Noto Serif"],
+            "body-lg": ["Manrope"],
+            "body-md": ["Manrope"],
+            "h3": ["Noto Serif"],
+            "h2": ["Noto Serif"],
+            "caption": ["Manrope"]
+          },
+          "fontSize": {
+            "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "h1": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+            "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+            "h2": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+            "caption": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 20px;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e2e8f0;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen selection:bg-secondary-container">
+<aside class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-serif text-sm font-medium h-screen w-64 fixed left-0 top-0 hidden md:flex border-r border-slate-200 dark:border-slate-800 flat no shadows flex flex-col h-full p-6 gap-2">
+<div class="mb-8 px-4">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg" data-icon="account_balance">account_balance</span>
+</div>
+<h1 class="text-lg font-bold font-serif text-slate-900 dark:text-white">Heritage Archive</h1>
+</div>
+<p class="text-slate-500 font-caption text-[10px] tracking-widest uppercase">Preserving Legacy</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2.5 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+        Dashboard
+      </a>
+<a class="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-md px-4 py-2.5 flex items-center gap-3 font-semibold active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+        Tree View
+      </a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2.5 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="photo_library">photo_library</span>
+        Media
+      </a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2.5 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+        Account
+      </a>
+</nav>
+<div class="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-1">
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2.5 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+        Support
+      </a>
+<a class="text-slate-500 dark:text-slate-400 px-4 py-2.5 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+        Logout
+      </a>
+</div>
+</aside>
+<main class="md:pl-64 min-h-screen relative overflow-hidden">
+<div class="p-8 h-full">
+<div class="flex justify-between items-center mb-12">
+<div>
+<h2 class="font-h2 text-h2 text-primary">Family Tree</h2>
+<p class="font-caption text-secondary">Exploring the Sterling Lineage</p>
+</div>
+<div class="flex gap-4">
+<button class="px-4 py-2 flex items-center gap-2 border border-outline-variant rounded-xl hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+<span class="font-label-sm">Filters</span>
+</button>
+<button class="px-6 py-2 bg-primary-container text-white rounded-xl font-label-sm shadow-md hover:brightness-110 transition-all">
+            Share Archive
+          </button>
+</div>
+</div>
+<div class="w-full h-[600px] bg-slate-50 rounded-2xl border border-slate-200 relative overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#000 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+<div class="relative flex flex-col items-center gap-16">
+<div class="p-4 bg-white shadow-md rounded-xl border border-slate-200 flex items-center gap-4 w-64 grayscale opacity-40">
+<div class="w-12 h-12 rounded-full bg-slate-200"></div>
+<div>
+<div class="h-4 w-24 bg-slate-200 rounded mb-2"></div>
+<div class="h-3 w-16 bg-slate-100 rounded"></div>
+</div>
+</div>
+<div class="relative z-10 p-4 bg-white shadow-lg rounded-xl border-2 border-primary-container flex items-center gap-4 w-64 ring-8 ring-background">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Sophisticated middle-aged woman with thoughtful expression, studio lighting, elegant atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6JdW8PJ_M38PvLPpVFZ3s-ih3wPiiKdHmdNj1E6Xr4Y6Nll0IGMDKuTKWqZxVHeBLekQIdhrcoMCJbcOIrRURNmJGE2X36CiQGxe4KMaVEo8BoVHyuCvJ1WnDqUVWm37CX6mF7kfcggglIyAdggZ74xtAiUO1r9b1J3ZMry0vRDWvrksl5tnFa_bY3_wIhzhgfPaSNGe--Ovfxy4W7xibmrHbGeYDqXVd-iZD7yAr3ucQygDmw1NgGqn66t3gULnzOSbjYNvF2fp4"/>
+<div>
+<h3 class="font-h3 text-base text-primary">Eleanor Sterling</h3>
+<p class="font-caption text-secondary">1942 — Present</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] flex justify-end">
+<div class="w-full max-w-xl bg-white h-full shadow-2xl flex flex-col relative animate-slide-in">
+<button class="absolute top-6 left-6 p-2 rounded-full hover:bg-slate-100 transition-colors z-10">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<div class="h-64 relative overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Portrait of a sophisticated woman with refined features, soft library lighting, high-end photographic style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1y1z-kaq14kV1yT0XXZ00XwwbPiglTinj0YGqq-9jH9gW6UWuhLHRmBmwVsx-ScuM_P1r8HV8IEcvCTdzQ4l5Jf6K8iKT4kqTkM9HMYMsZVcVWnEAZ3Db9rkiOFNlksHYjjS2pyuHtRTA2yMnG38YgamT6lgPkCVyFQehI6YJakWUxAN1PeCdk1NyJeHbNeebpvV9kt7qjAL84xksSJXvA1x-TzcRzCw8WPtgz49YPQwV07fRhcvNtfFwJtxM9atI8d8QVGcfFndZ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+</div>
+<div class="flex-1 overflow-y-auto px-10 pb-10 -mt-16 relative z-10 custom-scrollbar">
+<div class="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold tracking-wider uppercase">Verified Record</span>
+<span class="material-symbols-outlined text-tertiary-container" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<h1 class="font-h1 text-h1 text-primary-container mb-1">Eleanor Sterling</h1>
+<p class="font-body-lg text-secondary mb-6">Born 14th June, 1942 in London, UK</p>
+<div class="grid grid-cols-2 gap-8 pt-6 border-t border-slate-100">
+<div>
+<p class="font-caption text-slate-400 uppercase tracking-widest mb-1">Status</p>
+<p class="font-label-sm text-primary">Living</p>
+</div>
+<div>
+<p class="font-caption text-slate-400 uppercase tracking-widest mb-1">Education</p>
+<p class="font-label-sm text-primary">Oxford University</p>
+</div>
+</div>
+</div>
+<section class="mb-12">
+<h4 class="font-label-sm text-primary-container uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+              Biography
+            </h4>
+<div class="space-y-4 font-body-md text-on-surface-variant leading-relaxed">
+<p>Eleanor Sterling was the eldest of three siblings, born into a family with deep roots in the publishing industry. Her childhood was spent between the bustle of post-war London and the quiet libraries of her family's estate in Surrey.</p>
+<p>She followed in her father's footsteps, attending Oxford before becoming a pioneering figure in historical archival work. Throughout the 1970s, she dedicated her life to preserving the forgotten narratives of rural England, a passion that has defined her professional legacy.</p>
+<p>Her work remains a cornerstone of the Heritage Archive today, where she continues to serve as an honorary consultant, ensuring that the stories of the past are never lost to the rush of the future.</p>
+</div>
+</section>
+<section class="mb-12">
+<div class="flex justify-between items-end mb-6">
+<h4 class="font-label-sm text-primary-container uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Immediate Relations
+              </h4>
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-slate-100 transition-all border border-slate-100">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<div class="group flex items-center justify-between p-4 bg-surface-container-lowest border border-slate-100 rounded-xl hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of an older man with grey hair and warm eyes, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRnsCXPVmxXJWt34-66xW_pdDxcsjd1yTcZRgYAaLRRznKqWDTXpUB5qf_suYAoOrdbrM76iiUcZRb9PZouL1MdonywZSPuvCq--FbqttMZxvtdhiwRkBokg30ASRqRr-cGN-biNdXEu_ZmWXnq3DvsAMiZxGomBATJgLZDKFu-m105iKrWg8PNT8dOmJ5PXWnD-TnUONM8MbAzmGETIG10sOMmW-DsLCF_GCkZuzXyc-l377E5MIqHc0snE1B5IuTTduKHSjd1Eoy"/>
+<div>
+<p class="font-label-sm text-primary">Arthur Sterling</p>
+<p class="font-caption text-slate-400">Spouse</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="group flex items-center justify-between p-4 bg-surface-container-lowest border border-slate-100 rounded-xl hover:shadow-md transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a young man, soft natural lighting, outdoor background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABbvBlpdl0j8pOVHJ7x5WEeFZVb_3xgYLW-FkB7Fpo-RKPWQ3l-pyEJwqPjepQ9BE4QYzMD1y4_w7PbkQJmOp5s_6EjiofCdy5swPnjw6CLXz6PZ-r0RFFaiDa9QGswEgUr_af3Gjh-IgsMHzcGOztUGsI-cXCOzB5GAEhaZc5wpd5Yk-F7EipXtAwVBTSJ4n_yGW-h2JPOY5uPrMqvVR-iU9umP-hkItx7CZhrLQYS5GQDRYBY3d1_zwbPfpYQwANasMaOSudIKfR"/>
+<div>
+<p class="font-label-sm text-primary">Thomas Sterling</p>
+<p class="font-caption text-slate-400">Son</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-3 gap-3 sticky bottom-0 bg-white pt-4 pb-2">
+<button class="flex flex-col items-center justify-center p-4 border border-dashed border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-slate-400 transition-all group">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary mb-2" data-icon="person_add">person_add</span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Add Parent</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-dashed border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-slate-400 transition-all group">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary mb-2" data-icon="favorite">favorite</span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Add Spouse</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-dashed border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-slate-400 transition-all group">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary mb-2" data-icon="child_care">child_care</span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Add Child</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<style>
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .animate-slide-in {
+      animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</body></html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Heritage Archive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#131b2e",
+                        "secondary-container": "#d0e1fb",
+                        "on-primary": "#ffffff",
+                        "background": "#fcf8fa",
+                        "surface": "#fcf8fa",
+                        "on-surface": "#1b1b1d",
+                        "outline": "#76777d",
+                        "outline-variant": "#c6c6cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Manrope"],
+                        "h1": ["Noto Serif"],
+                        "body-lg": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "h2": ["Noto Serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(19, 27, 46, 0.9), rgba(19, 27, 46, 0.6)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden">
+<div class="flex min-h-screen">
+<!-- Brand/Message Side -->
+<div class="hidden lg:flex lg:w-1/2 hero-gradient p-12 flex-col justify-between text-white relative">
+<div class="z-10">
+<div class="text-2xl font-bold font-serif tracking-tight">Heritage Archive</div>
+</div>
+<div class="z-10 space-y-6 max-w-xl">
+<h1 class="font-h1 text-5xl tracking-tight leading-tight">
+                    Every family has a story.<br/>Preserve yours forever.
+                </h1>
+<p class="font-body-lg text-slate-200">
+                    The modern digital archive for family history. Return to your legacy and continue mapping the branches of your heritage.
+                </p>
+</div>
+<div class="z-10 text-sm text-slate-400">
+                © 2024 Heritage Archive. All rights reserved.
+            </div>
+</div>
+<!-- Login Side -->
+<div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-white">
+<div class="w-full max-w-md space-y-8">
+<!-- Mobile Branding -->
+<div class="lg:hidden text-center mb-8">
+<div class="text-2xl font-bold font-serif tracking-tight text-primary-container">Heritage Archive</div>
+</div>
+<div class="space-y-2">
+<h2 class="font-h2 text-3xl text-primary-container">Welcome Back</h2>
+<p class="text-slate-500 font-body-md">Please enter your credentials to access your archive.</p>
+</div>
+<form class="mt-8 space-y-6" onsubmit="return false;">
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-semibold text-primary-container mb-1" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">mail</span>
+<input class="block w-full pl-10 pr-4 py-3 bg-slate-50 border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all outline-none" id="email" name="email" placeholder="name@example.com" required="" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<label class="block text-sm font-semibold text-primary-container" for="password">Password</label>
+<a class="text-xs font-semibold text-primary-container hover:underline" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">lock</span>
+<input class="block w-full pl-10 pr-4 py-3 bg-slate-50 border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all outline-none" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+</div>
+<div class="flex items-center">
+<input class="h-4 w-4 text-primary-container focus:ring-primary-container border-outline-variant rounded" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block text-sm text-slate-600" for="remember-me">Keep me logged in</label>
+</div>
+<div class="space-y-4">
+<button class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-primary-container hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container transition-all active:scale-[0.98]" type="submit">
+                            Sign In
+                        </button>
+<div class="relative py-2">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
+<div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-2 text-slate-400 font-label-sm">Or continue with</span></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center py-3 px-4 border border-outline-variant rounded-xl hover:bg-slate-50 transition-colors">
+<img alt="Google" class="h-5 w-5 mr-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvx5lEcXunirYKyiqhXbixV9yewIv0yMCKZBiA_fIo3FnsYcT2k8LfJ7i9JwQXtAExVW8Nub2bhv-K0kIwuP5ZBuPE8YpXnQznQ_vwUqqm7_gIDD1H9pISsDuQLflcu1ZELhRvTzyS-NCNG49jbrn8J6pb5BGeVvWbD1YVYSGv4WQB80Wniu9CcL8yEuHg2-TAGAdnbiwzQhzStc8lLv5iTj-7PaO5VTR8VeE8OxCv7fnT58Lq1h7PGn6aN6BLLPbWXBJX9E_vVi1f"/>
+<span class="text-sm font-medium text-slate-700">Google</span>
+</button>
+<button class="flex items-center justify-center py-3 px-4 border border-outline-variant rounded-xl hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-xl mr-2">apple</span>
+<span class="text-sm font-medium text-slate-700">Apple</span>
+</button>
+</div>
+</div>
+</form>
+<p class="text-center text-sm text-slate-500 mt-8">
+                    New to Heritage Archive? 
+                    <a class="font-semibold text-primary-container hover:underline" href="#">Start your tree today</a>
+</p>
+</div>
+</div>
+</div>
+</body></html>

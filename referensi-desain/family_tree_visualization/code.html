@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tree View | Heritage Archive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "primary-container": "#131b2e",
+                        "tertiary": "#725c00",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dcd9db",
+                        "outline": "#76777d",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "surface-variant": "#e4e2e4",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-low": "#f6f3f5",
+                        "tertiary-fixed": "#ffe081",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#eae7e9",
+                        "tertiary-container": "#cba829",
+                        "inverse-on-surface": "#f3f0f2",
+                        "background": "#fcf8fa",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1b1b1d",
+                        "on-primary-container": "#7c839b",
+                        "surface": "#fcf8fa",
+                        "surface-tint": "#565e74",
+                        "surface-container": "#f0edef",
+                        "on-secondary-container": "#54647a",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary-fixed-dim": "#e8c344",
+                        "secondary-container": "#d0e1fb",
+                        "on-surface-variant": "#45464d",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e4e2e4",
+                        "on-surface": "#1b1b1d",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-primary-fixed": "#131b2e",
+                        "on-tertiary-fixed": "#231b00",
+                        "secondary": "#505f76",
+                        "on-tertiary-container": "#4e3e00",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-bright": "#fcf8fa",
+                        "on-tertiary-fixed-variant": "#564500",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "outline-variant": "#c6c6cd",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary-fixed": "#0b1c30",
+                        "primary": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "tree-node-gap": "32px",
+                        "container-max": "1280px",
+                        "sm": "12px",
+                        "md": "24px",
+                        "base": "8px",
+                        "lg": "48px",
+                        "xl": "80px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Manrope"],
+                        "h1": ["Noto Serif"],
+                        "body-lg": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "h3": ["Noto Serif"],
+                        "h2": ["Noto Serif"],
+                        "caption": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "h2": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tree-canvas {
+            background-image: 
+                radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .connector-line {
+            stroke: #505f76;
+            stroke-width: 2;
+            fill: none;
+        }
+        .connector-line-highlight {
+            stroke: #cba829;
+            stroke-width: 2.5;
+            fill: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased overflow-hidden h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-md flex items-center justify-between px-8 py-3 w-full docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm font-serif antialiased">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold font-serif text-slate-900 dark:text-slate-50 tracking-tight">Heritage Archive</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-white border-b-2 border-slate-900 dark:border-slate-100 pb-1 font-semibold" href="#">Tree View</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Records</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-md focus:ring-1 focus:ring-slate-400 text-sm w-64" placeholder="Search archive..." type="text"/>
+</div>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-300">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-300">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 ring-1 ring-slate-200">
+<img alt="User profile avatar" data-alt="Close-up professional portrait of a woman with a neutral expression in soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXRkmP5H-zyH8_jDiSRObhEZeKx8tXp547K-XrZArE3dgbSiqyRFNtpmkLhpJjGB81l_2DU1Phh1SEccF_DjRBZ8j11tf-b-MTsw0Y2fAR2o13e-9uTJjXCr5eH0fVIaCiQSayBN8nT5oQ1HDMCgovHNKFP0H78iFWGYevEN2RGpY_6ctpz_RDSgHzoPuJhC2kZwdWOb_jcv0CDUeR8k4t3TBDsUfgh5fz3nZLKJjlr8XklbirT7l7lj_Zox2vvKZ2eoxabk3Kmv6j"/>
+</div>
+</div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<!-- Tree Sidebar (Selected Person Summary) -->
+<aside class="w-80 bg-white border-r border-slate-200 flex flex-col z-40 overflow-y-auto">
+<div class="p-6 border-b border-slate-100">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary-container/20" placeholder="Find a relative..." type="text"/>
+</div>
+</div>
+<div class="flex-1 p-6 space-y-8">
+<!-- Selection Detail -->
+<div>
+<div class="aspect-[4/5] rounded-xl overflow-hidden mb-4 shadow-sm">
+<img alt="Elizabeth Bennet" class="w-full h-full object-cover" data-alt="Sepia toned vintage portrait of a woman from the late 19th century in elegant attire with a soft historical film grain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAovItMnsxZdGm3sopcbn3FCvfAN7ptdzD9P_e_gcgbfXKn7jpKErO-jiTv3E41lZn722ca_VQ6HNKGZokkn_T-VjaObNhMvVQiKsGco3_tXZ-dxqHL49NRlE4iXEGK69gedCHvT0HPivMPVwg3ch8kcjFdYocDkK6Wftv6fYIKjbrHWEH02JVWTLOC-MIa9s3eUSOfD_xxeuyOhAQ6hxB-OTKzN1MFdtSOmHEzgdU7z9oy4C0SaQ0EkpwV9wp9HR4aTNK9IxhVk1N4"/>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface">Elizabeth Bennet</h3>
+<p class="font-caption text-caption text-secondary mt-1">1842 — 1914</p>
+<div class="flex gap-2 mt-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm">Verified Record</span>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Primary Anchor</span>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Quick Info</h4>
+<div class="space-y-3">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-lg">location_on</span>
+<div>
+<p class="text-sm font-medium">Birthplace</p>
+<p class="text-sm text-on-surface-variant">Hertfordshire, England</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-lg">family_history</span>
+<div>
+<p class="text-sm font-medium">Spouse</p>
+<p class="text-sm text-on-surface-variant">Fitzwilliam Darcy (m. 1860)</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-lg">group</span>
+<div>
+<p class="text-sm font-medium">Children</p>
+<p class="text-sm text-on-surface-variant">5 Children</p>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Media Gallery</h4>
+<div class="grid grid-cols-3 gap-2">
+<img class="rounded-lg aspect-square object-cover" data-alt="Vintage sepia photograph of an old estate house with tall windows and ivy climbing the walls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYr78emvTpjd68TG-VTRh59RSeTQycDTKxDU0oxC66MUQtUYNUDxKf3MJynh34Ncy0YW3C7-2Oje73kRGiEg_fF6s-wtcFuXBCAiVv3VkfQRVh2CgQ6gljXJuywh6tyxgq0moHWxIuy-m-rfWXQjvZCi8prqdvHDt4WBA7PlttIXhgoP7O8rZqdRX6xwAoGw_NJrMcTCIx_7OG5yk0CVua0FXs_Ma_jOSIPT-QfzsfuUZnKGJ6l-oinYWdUxa9F2j_TeiQYBFdUz3D"/>
+<img class="rounded-lg aspect-square object-cover" data-alt="Old handwritten letter on yellowed parchment with elegant cursive script and a wax seal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAro-c_TRl8Fcr72Cc2-4VkItnsjL8BvgvYQOp1NlOMZ4AdicopC1mCklUj2qUQJbtX_xpUq1eB3wF08iEYa367ImM8L0y0GOrjbTHzKKWO7IN55vwrLztmfHpQTgIsiup8UwdtZUxg3KGNemKk4-6_p-_rnzxZ93czgOJi_a4l7sVjU54u2vfP-eBNkcDTACUIRzIISj4g5H2I74NJ8woWrlBFDadZbVCWIclK25oeQg5GMmVlQWyKdiU2-HEOxwBSmAoAoIKUp_E"/>
+<div class="rounded-lg aspect-square bg-slate-100 flex items-center justify-center cursor-pointer hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-slate-400">add</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 border-t border-slate-100">
+<button class="w-full py-3 bg-primary-container text-on-primary rounded-xl font-label-sm text-label-sm hover:opacity-90 transition-opacity">
+                    View Full Profile
+                </button>
+</div>
+</aside>
+<!-- Main Tree Canvas -->
+<main class="flex-1 relative overflow-hidden bg-surface tree-canvas">
+<!-- SVG Layer for Connecting Lines -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none">
+<!-- Vertical connection lines -->
+<path class="connector-line" d="M 600,200 L 600,280 M 350,280 L 850,280"></path>
+<path class="connector-line" d="M 350,280 L 350,350 M 850,280 L 850,350"></path>
+<!-- Direct Bloodline highlight -->
+<path class="connector-line-highlight" d="M 600,100 L 600,180"></path>
+</svg>
+<!-- Family Nodes (Simulated Canvas Elements) -->
+<div class="absolute inset-0 p-lg flex flex-col items-center">
+<!-- Generation 1 -->
+<div class="mt-xl">
+<div class="bg-white p-4 rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] border-l-4 border-tertiary-container flex items-center gap-4 w-72 hover:shadow-[0px_8px_24px_rgba(15,23,42,0.1)] transition-all cursor-pointer ring-2 ring-tertiary-container/20">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Thomas Bennet" data-alt="Black and white portrait of an elderly man with a beard wearing a traditional suit from the 1900s" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpKwmDIIALSkMMMmHuIWwzV4vxUqsGdQOV4zvpw7PWdluWQHSchB-hE6E0wfdo7-0BHnNvxQEQnTeb3J9XB1dU6cjArbUzYpJiBhoxP4DTJ0ZIpMbiiFAX8TLlN0FN-7i3akgQTYn2-DHCCbo6pfp28XlbIRB__uLHTH0nPU_b8-3fnUj7kjIoNqmFULvEaPrV_UeYs9TaI2iq8usM72QGGJRfJbnIMdj1lkQiIRH2D7gbrVbQyC9no6vLhrCi2KPhNMQ-YSQ0G7HE"/>
+</div>
+<div>
+<h3 class="font-h3 text-[18px] text-on-surface truncate">Thomas Bennet</h3>
+<p class="font-caption text-caption text-secondary">1810 — 1885</p>
+</div>
+</div>
+</div>
+<!-- Spacer -->
+<div class="h-32"></div>
+<!-- Generation 2 -->
+<div class="flex gap-tree-node-gap">
+<!-- Node Left -->
+<div class="bg-white p-4 rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] flex items-center gap-4 w-72 hover:shadow-[0px_8px_24px_rgba(15,23,42,0.1)] transition-all cursor-pointer">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Jane Bennet" data-alt="Historical portrait of a young woman with braided hair and a high-collared dress in soft focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwMy8KvdW0NZmS_hBsEKDRnqw8DuYbj6cmE8sDsieC5P-9uIC3oHzUmG5PpPYe-IATzS8FqlzCRYpqSodjif1LYsaFm7v388_r8xJ_5-0Ecqxr_MfUsEWF0euKIQAlvDCw3_Ax8VLgk_xhmmG3xx-E8e8oIhp14hW6cYDBUip9vURuhEMDUi8M2ugQiLjuxmllR-GHOWNesqcxdYtZDncWmcnUED5rViZdznX2f8EIL-Yj0w9e5cgpgo0A5HrLZu12SotskL5Ba381"/>
+</div>
+<div>
+<h3 class="font-h3 text-[18px] text-on-surface truncate">Jane Bennet</h3>
+<p class="font-caption text-caption text-secondary">1839 — 1908</p>
+</div>
+</div>
+<!-- Node Center (Selected) -->
+<div class="bg-white p-4 rounded-xl shadow-[0px_8px_24px_rgba(15,23,42,0.1)] ring-2 ring-primary-container border-l-4 border-primary-container flex items-center gap-4 w-72 transition-all cursor-pointer scale-105 z-10">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Elizabeth Bennet" data-alt="Classic vintage portrait of a woman in her 30s with elegant posture and thoughtful expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsyZlbTpaKXtezVw3WKLwq6fi36Gvkb_Mwxhih7VKzTm84vja_SDCd9krSFvZgyrMHS_YsRN-sYqsuXrlWzfWBktdKIZTvb6q0sSTmde7NWY6GrawSBvN1RJhkVRUVc-q6dKBSV4Na5uY1EI98zc79FQ7yy97FPc1FM6E3cP0xexOZNgMPmXQR9ucSLrijgyI_rc5E66ZWboEstbS4VaoKdBP3YzbvJUaEyPXUxfGNZrqBCh8PpO-_EEsZSJowpwOB0i7FoM0VJf1z"/>
+</div>
+<div>
+<h3 class="font-h3 text-[18px] text-on-surface truncate">Elizabeth Bennet</h3>
+<p class="font-caption text-caption text-secondary">1842 — 1914</p>
+</div>
+</div>
+<!-- Node Right -->
+<div class="bg-white p-4 rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] flex items-center gap-4 w-72 hover:shadow-[0px_8px_24px_rgba(15,23,42,0.1)] transition-all cursor-pointer">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+<img alt="Mary Bennet" data-alt="Sepia photograph of a woman with glasses reading a book in a library setting, victorian era" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnClaF3voWNLK9z-F1d_tR70R3YAPe-YByMtE_KJK5GCuzFQcayOlIJh7zkMBMqcapI5SVvHEdjFx1QS3VIO3KSZvlzutAzxclWSRda4NWReR36iUOULnwqpZroAiTLVIH_Lj3OipzPZiP1MFst8cu3JQnCdJRUDnI-VcgJpbkEYTUq07rCha0zZGHWrx2wfwSElHcOfRM31BOBjYiu8M-SVj1OuGzy0FUn1yexXAH7ELMZiwOYDaN45qXwGUKWtQ9lOMMzr4y72R6"/>
+</div>
+<div>
+<h3 class="font-h3 text-[18px] text-on-surface truncate">Mary Bennet</h3>
+<p class="font-caption text-caption text-secondary">1844 — 1920</p>
+</div>
+</div>
+</div>
+<!-- Generation 3 -->
+<div class="h-48 flex items-end">
+<div class="bg-white p-4 rounded-xl shadow-[0px_4px_12px_rgba(15,23,42,0.05)] border-l-4 border-secondary-container flex items-center gap-4 w-72 opacity-60 hover:opacity-100 transition-all cursor-pointer">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-slate-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-300">person</span>
+</div>
+<div>
+<h3 class="font-h3 text-[18px] text-on-surface truncate">Add Relative</h3>
+<p class="font-caption text-caption text-secondary">Connect New Node</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Canvas Controls (Bottom Right) -->
+<div class="absolute bottom-8 right-8 flex flex-col gap-3">
+<div class="bg-white rounded-full shadow-lg p-2 flex flex-col border border-slate-200">
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<div class="h-px bg-slate-100 mx-2"></div>
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<button class="bg-white rounded-full shadow-lg p-3 border border-slate-200 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined">center_focus_strong</span>
+</button>
+<button class="bg-white rounded-full shadow-lg p-3 border border-slate-200 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined">open_with</span>
+</button>
+</div>
+<!-- Tree Indicators -->
+<div class="absolute bottom-8 left-8 bg-white/80 backdrop-blur-md rounded-xl p-4 border border-slate-200 shadow-sm flex gap-6">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-tertiary-container"></div>
+<span class="font-caption text-caption text-secondary">Primary Bloodline</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="font-caption text-caption text-secondary">Collateral Branches</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+<span class="font-caption text-caption text-secondary">Records Verified</span>
+</div>
+</div>
+</main>
+</div>
+</body></html>
