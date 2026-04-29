@@ -25,5 +25,5 @@ dist-ssr
 *.sw?
 
 #server backend
-server/
-.env
+server/node_modules
+server/.env
