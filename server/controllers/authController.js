@@ -130,3 +130,52 @@ exports.getMe = async (req, res) => {
     });
   }
 };
+
+// @route   PUT /api/auth/change-password
+// @desc    Change current user's password
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password lama dan password baru wajib diisi.',
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password baru minimal 6 karakter.',
+      });
+    }
+
+    // Get user with password field
+    const user = await User.findById(req.user._id).select('+password');
+
+    // Verify current password
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: 'Password lama salah.',
+      });
+    }
+
+    // Set new password (will be hashed by pre-save hook)
+    user.password = newPassword;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Password berhasil diubah.',
+    });
+  } catch (error) {
+    console.error('ChangePassword error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Terjadi kesalahan pada server.',
+    });
+  }
+};
