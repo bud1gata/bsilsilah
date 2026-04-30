@@ -5,6 +5,7 @@ import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Dashboard from './pages/Dashboard';
 import TreeView from './pages/Tree/TreeView';
+import Profile from './pages/Auth/Profile';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tree/:id" element={<TreeView />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </div>

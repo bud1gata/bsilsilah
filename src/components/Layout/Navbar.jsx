@@ -19,9 +19,9 @@ const Navbar = () => {
           <div className="flex items-center">
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
-                <span className="text-sm font-medium text-slate-700">
+                <Link to="/profile" className="text-sm font-medium text-slate-700 hover:text-indigo-600 transition-colors">
                   Hi, {user?.firstName || user?.name || 'User'}
-                </span>
+                </Link>
                 <button
                   onClick={logout}
                   className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"

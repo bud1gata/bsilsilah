@@ -47,9 +47,11 @@ export const FamilyNode = ({ data, selected }) => {
       </div>
 
       {/* Source handle (bottom) for outgoing child relations */}
-      <Handle type="source" position={Position.Bottom} className="w-3 h-3 !bg-slate-300" />
-      {/* Source handle (left/right) for spouse relations could be added if needed, 
-          but usually managed with custom edge routing or specific graph layouts */}
+      <Handle type="source" position={Position.Bottom} className="w-3 h-3 !bg-slate-300" id="bottom" />
+      
+      {/* Handles for spouses (horizontal) */}
+      <Handle type="source" position={Position.Right} className="w-2 h-2 !bg-transparent !border-none" id="right" />
+      <Handle type="target" position={Position.Left} className="w-2 h-2 !bg-transparent !border-none" id="left" />
     </div>
   );
 };

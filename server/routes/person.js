@@ -8,6 +8,7 @@ const {
   update,
   remove,
   addRelation,
+  changeRelationType,
 } = require('../controllers/personController');
 
 // All person routes require authentication
@@ -19,5 +20,6 @@ router.get('/:id', getById);
 router.put('/:id', update);
 router.delete('/:id', remove);
 router.post('/:id/relation', addRelation);
+router.put('/:id/relation/:targetId', changeRelationType);
 
 module.exports = router;

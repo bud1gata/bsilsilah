@@ -43,6 +43,14 @@ const personSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    positionX: {
+      type: Number,
+      default: null,
+    },
+    positionY: {
+      type: Number,
+      default: null,
+    },
     isRoot: {
       type: Boolean,
       default: false,
@@ -66,6 +74,12 @@ const personSchema = new mongoose.Schema(
         ref: 'Person',
       },
     ],
+    // Belongs to which tree
+    treeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tree',
+      required: true,
+    },
     // Owner of this person record
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

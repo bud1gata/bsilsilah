@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const personRoutes = require('./routes/person');
+const treeRoutes = require('./routes/tree');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/persons', personRoutes);
+app.use('/api/trees', treeRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

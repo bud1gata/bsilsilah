@@ -1,7 +1,7 @@
 const Person = require('../models/Person');
 
 // @route   GET /api/persons
-// @desc    Get all family members belonging to the current user
+// @desc    Get all family members belonging to the current user (across all trees)
 exports.getAll = async (req, res) => {
   try {
     const persons = await Person.find({ createdBy: req.user._id })
@@ -19,6 +19,46 @@ exports.getAll = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Gagal mengambil data anggota keluarga.',
+    });
+  }
+};
+
+// @route   GET /api/trees/:treeId/persons
+// @desc    Get all family members for a specific tree
+exports.getPersonsByTree = async (req, res) => {
+  try {
+    // Auto-migration for this specific tree if it's the default one (or just run globally)
+    const orphanedPersons = await Person.find({ createdBy: req.user._id, treeId: { $exists: false } });
+    if (orphanedPersons.length > 0) {
+      let defaultTree = await Tree.findOne({ createdBy: req.user._id, name: 'Silsilah Lama (Migrasi)' });
+      if (!defaultTree) {
+        defaultTree = await Tree.create({
+          name: 'Silsilah Lama (Migrasi)',
+          description: 'Silsilah yang dibuat sebelum pembaruan sistem.',
+          createdBy: req.user._id
+        });
+      }
+      await Person.updateMany(
+        { createdBy: req.user._id, treeId: { $exists: false } },
+        { treeId: defaultTree._id }
+      );
+    }
+
+    const persons = await Person.find({ createdBy: req.user._id, treeId: req.params.treeId })
+      .populate('parents', 'firstName lastName gender')
+      .populate('spouses', 'firstName lastName gender')
+      .populate('children', 'firstName lastName gender')
+      .sort({ createdAt: 1 });
+
+    res.json({
+      success: true,
+      data: persons,
+    });
+  } catch (error) {
+    console.error('GetPersonsByTree error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Gagal mengambil data silsilah.',
     });
   }
 };
@@ -59,12 +99,16 @@ exports.getById = async (req, res) => {
 // @desc    Create a new person (first/root node or standalone)
 exports.create = async (req, res) => {
   try {
-    const { firstName, lastName, gender, birthDate, birthPlace, deathDate, deathPlace, photoUrl, bio, isRoot } = req.body;
+    const { firstName, lastName, gender, birthDate, birthPlace, deathDate, deathPlace, photoUrl, bio, isRoot, treeId } = req.body;
 
-    // If isRoot, unset any existing root for this user
+    if (!treeId) {
+      return res.status(400).json({ success: false, message: 'treeId wajib disertakan.' });
+    }
+
+    // If isRoot, unset any existing root for THIS tree
     if (isRoot) {
       await Person.updateMany(
-        { createdBy: req.user._id, isRoot: true },
+        { treeId: treeId, isRoot: true },
         { isRoot: false }
       );
     }
@@ -80,6 +124,7 @@ exports.create = async (req, res) => {
       photoUrl,
       bio,
       isRoot: isRoot || false,
+      treeId,
       createdBy: req.user._id,
     });
 
@@ -108,7 +153,7 @@ exports.create = async (req, res) => {
 // @desc    Update person details
 exports.update = async (req, res) => {
   try {
-    const { firstName, lastName, gender, birthDate, birthPlace, deathDate, deathPlace, photoUrl, bio, isRoot } = req.body;
+    const { firstName, lastName, gender, birthDate, birthPlace, deathDate, deathPlace, photoUrl, bio, isRoot, positionX, positionY } = req.body;
 
     const person = await Person.findOne({
       _id: req.params.id,
@@ -122,10 +167,10 @@ exports.update = async (req, res) => {
       });
     }
 
-    // If setting as root, unset any existing root
+    // If setting as root, unset any existing root in THIS tree
     if (isRoot && !person.isRoot) {
       await Person.updateMany(
-        { createdBy: req.user._id, isRoot: true },
+        { treeId: person.treeId, isRoot: true },
         { isRoot: false }
       );
     }
@@ -141,6 +186,8 @@ exports.update = async (req, res) => {
     if (photoUrl !== undefined) person.photoUrl = photoUrl;
     if (bio !== undefined) person.bio = bio;
     if (isRoot !== undefined) person.isRoot = isRoot;
+    if (positionX !== undefined) person.positionX = positionX;
+    if (positionY !== undefined) person.positionY = positionY;
 
     await person.save();
 
@@ -247,6 +294,7 @@ exports.addRelation = async (req, res) => {
     } else if (newPerson) {
       targetPerson = await Person.create({
         ...newPerson,
+        treeId: sourcePerson.treeId, // Inherit treeId from source
         createdBy: req.user._id,
       });
     } else {
@@ -312,5 +360,56 @@ exports.addRelation = async (req, res) => {
       success: false,
       message: 'Gagal menambahkan relasi.',
     });
+  }
+};
+
+// @route   PUT /api/persons/:id/relation/:targetId
+// @desc    Change relation type between two existing persons
+exports.changeRelationType = async (req, res) => {
+  try {
+    const { newRelationType } = req.body;
+    const { id, targetId } = req.params;
+
+    if (!['parent', 'child', 'spouse'].includes(newRelationType)) {
+      return res.status(400).json({ success: false, message: 'Tipe relasi tidak valid.' });
+    }
+
+    const person1 = await Person.findOne({ _id: id, createdBy: req.user._id });
+    const person2 = await Person.findOne({ _id: targetId, createdBy: req.user._id });
+
+    if (!person1 || !person2) {
+      return res.status(404).json({ success: false, message: 'Anggota keluarga tidak ditemukan.' });
+    }
+
+    // Remove existing connections between person1 and person2
+    person1.parents.pull(person2._id);
+    person1.children.pull(person2._id);
+    person1.spouses.pull(person2._id);
+
+    person2.parents.pull(person1._id);
+    person2.children.pull(person1._id);
+    person2.spouses.pull(person1._id);
+
+    // Add new connection based on perspective of id (person1)
+    if (newRelationType === 'parent') {
+      // person2 is parent of person1
+      person1.parents.push(person2._id);
+      person2.children.push(person1._id);
+    } else if (newRelationType === 'child') {
+      // person2 is child of person1
+      person1.children.push(person2._id);
+      person2.parents.push(person1._id);
+    } else if (newRelationType === 'spouse') {
+      person1.spouses.push(person2._id);
+      person2.spouses.push(person1._id);
+    }
+
+    await person1.save();
+    await person2.save();
+
+    res.json({ success: true, message: 'Relasi berhasil diubah.' });
+  } catch (error) {
+    console.error('Change relation error:', error);
+    res.status(500).json({ success: false, message: 'Gagal mengubah relasi.' });
   }
 };
