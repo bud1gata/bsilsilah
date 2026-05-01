@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Network, ChevronDown, User, Key, LogOut, X } from 'lucide-react';
+import { ChevronDown, User, Key, LogOut, X } from 'lucide-react';
 import api from '../../services/api';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
@@ -100,7 +100,7 @@ const Navbar = () => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex-shrink-0 flex items-center gap-2">
-                <Network className="h-8 w-8 text-indigo-600" />
+                <img src="/silsilah-apps-logo.svg" alt="B-Silsilah Logo" className="h-8 w-8 object-contain" />
                 <span className="font-bold text-xl text-slate-900 tracking-tight">B-Silsilah</span>
               </Link>
             </div>
@@ -152,7 +152,7 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-600 text-white hover:bg-indigo-700 h-9 px-4 py-2"
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white hover:from-purple-800 hover:to-fuchsia-700 h-9 px-4 py-2"
                   >
                     Sign up
                   </Link>
@@ -197,7 +197,7 @@ const Navbar = () => {
                 <Button type="button" variant="outline" className="flex-1" onClick={() => setIsEditProfileOpen(false)}>
                   Batal
                 </Button>
-                <Button type="submit" className="flex-1 bg-indigo-600 hover:bg-indigo-700" disabled={profileLoading}>
+                <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-700 to-fuchsia-600 hover:from-purple-800 hover:to-fuchsia-700 text-white" disabled={profileLoading}>
                   {profileLoading ? 'Menyimpan...' : 'Simpan Profil'}
                 </Button>
               </div>
@@ -252,7 +252,7 @@ const Navbar = () => {
                 <Button type="button" variant="outline" className="flex-1" onClick={() => setIsChangePasswordOpen(false)}>
                   Batal
                 </Button>
-                <Button type="submit" className="flex-1 bg-indigo-600 hover:bg-indigo-700" disabled={passLoading}>
+                <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-700 to-fuchsia-600 hover:from-purple-800 hover:to-fuchsia-700 text-white" disabled={passLoading}>
                   {passLoading ? 'Menyimpan...' : 'Ubah Password'}
                 </Button>
               </div>
@@ -274,7 +274,7 @@ const Navbar = () => {
             <p className="text-sm text-slate-600 mb-6 leading-relaxed">
               Password Anda telah berhasil diperbarui. Demi keamanan, sesi Anda saat ini akan diakhiri. Silakan login kembali dengan password baru Anda.
             </p>
-            <Button className="w-full bg-indigo-600 hover:bg-indigo-700" onClick={handleSuccessClose}>
+            <Button className="w-full bg-gradient-to-r from-purple-700 to-fuchsia-600 hover:from-purple-800 hover:to-fuchsia-700 text-white" onClick={handleSuccessClose}>
               OK, Login Kembali
             </Button>
           </div>

@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/UI/Button';
 import { Input } from '../../components/UI/Input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../../components/UI/Card';
-import { Network, AlertCircle } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -44,11 +44,17 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
+    <div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 z-0 opacity-20 bg-[length:auto_100%] md:bg-cover bg-center bg-no-repeat bg-fixed"
+        style={{ backgroundImage: 'url(/bg-apps.webp)' }}
+      ></div>
+      
+      <div className="w-full max-w-md relative z-10">
         <div className="flex justify-center mb-8">
           <Link to="/" className="flex items-center gap-2">
-            <Network className="h-10 w-10 text-indigo-600" />
+            <img src="/silsilah-apps-logo.svg" alt="B-Silsilah Logo" className="h-10 w-10 object-contain" />
             <span className="font-bold text-2xl text-slate-900">B-Silsilah</span>
           </Link>
         </div>

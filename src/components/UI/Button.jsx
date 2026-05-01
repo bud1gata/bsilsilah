@@ -13,7 +13,7 @@ const Button = React.forwardRef(({ className, variant = 'default', size = 'defau
       className={cn(
         "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         {
-          'bg-indigo-600 text-white hover:bg-indigo-700': variant === 'default',
+          'bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white hover:from-purple-800 hover:to-fuchsia-700': variant === 'default',
           'bg-red-500 text-white hover:bg-red-600': variant === 'destructive',
           'border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900': variant === 'outline',
           'hover:bg-slate-100 hover:text-slate-900': variant === 'ghost',

@@ -157,7 +157,7 @@ const Dashboard = () => {
                 </p>
                 <div className="flex gap-2">
                   <Link to={`/tree/${tree._id}`} className="flex-1">
-                    <Button className="w-full gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+                    <Button className="w-full gap-2 bg-gradient-to-r from-purple-700 to-fuchsia-600 hover:from-purple-800 hover:to-fuchsia-700 text-white">
                       Buka Silsilah
                     </Button>
                   </Link>

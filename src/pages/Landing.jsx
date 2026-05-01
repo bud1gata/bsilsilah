@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Network, Users, Shield, Share2 } from 'lucide-react';
+import { Users, Shield, Share2 } from 'lucide-react';
 import { Button } from '../components/UI/Button';
 
 const Landing = () => {
@@ -16,8 +16,8 @@ const Landing = () => {
     <div className="bg-slate-50 min-h-[calc(100vh-4rem)] flex flex-col">
       {/* Hero Section */}
       <div className="flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-b from-indigo-50/50 to-white">
-        <div className="mb-8 p-4 rounded-full bg-indigo-100/50 text-indigo-600 ring-1 ring-indigo-200">
-          <Network className="w-16 h-16" />
+        <div className="mb-8 p-4 rounded-full bg-white shadow-sm ring-1 ring-slate-200">
+          <img src="/silsilah-apps-logo.svg" alt="B-Silsilah Logo" className="w-16 h-16 object-contain" />
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">
           Peta Sejarah <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Keluarga Anda</span>

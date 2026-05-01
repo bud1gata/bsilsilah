@@ -316,7 +316,7 @@ const TreeView = () => {
           {nodes.length === 0 && (
             <button 
               onClick={() => setIsAddModalOpen(true)}
-              className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-indigo-600 text-white hover:bg-indigo-700 h-9 px-3"
+              className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-gradient-to-r from-purple-700 to-fuchsia-600 text-white hover:from-purple-800 hover:to-fuchsia-700 h-9 px-3"
             >
               Tambah Anggota Pertama
             </button>
