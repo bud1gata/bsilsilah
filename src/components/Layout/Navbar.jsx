@@ -15,6 +15,7 @@ const Navbar = () => {
   // Modals state
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
 
   // Profile form
   const [profileName, setProfileName] = useState('');
@@ -57,10 +58,9 @@ const Navbar = () => {
     e.preventDefault();
     try {
       setProfileLoading(true);
-      const res = await api.put('/auth/profile', { name: profileName, email: profileEmail });
+      await api.put('/auth/profile', { name: profileName, email: profileEmail });
       alert('Profil berhasil diperbarui! Silakan muat ulang halaman untuk melihat perubahan pada nama.');
       setIsEditProfileOpen(false);
-      // Ideally we would update the AuthContext user here, but reloading or waiting for next fetch is fine
     } catch (err) {
       alert(err.response?.data?.message || 'Gagal memperbarui profil.');
     } finally {
@@ -79,13 +79,18 @@ const Navbar = () => {
         currentPassword: passForm.currentPassword,
         newPassword: passForm.newPassword
       });
-      alert('Password berhasil diubah!');
       setIsChangePasswordOpen(false);
+      setIsSuccessPopupOpen(true);
     } catch (err) {
       alert(err.response?.data?.message || 'Gagal mengubah password.');
     } finally {
       setPassLoading(false);
     }
+  };
+
+  const handleSuccessClose = () => {
+    setIsSuccessPopupOpen(false);
+    logout(); // Destroy session and force login
   };
 
   return (
@@ -252,6 +257,26 @@ const Navbar = () => {
                 </Button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Success Popup for Password Change */}
+      {isSuccessPopupOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6 text-center">
+            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Password Diubah!</h2>
+            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+              Password Anda telah berhasil diperbarui. Demi keamanan, sesi Anda saat ini akan diakhiri. Silakan login kembali dengan password baru Anda.
+            </p>
+            <Button className="w-full bg-indigo-600 hover:bg-indigo-700" onClick={handleSuccessClose}>
+              OK, Login Kembali
+            </Button>
           </div>
         </div>
       )}
