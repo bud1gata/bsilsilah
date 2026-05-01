@@ -1,6 +1,6 @@
-# Family Tree Tracker
+# B-Silsilah
 
-Family Tree Tracker adalah aplikasi berbasis web yang dirancang untuk mempermudah Anda dalam membuat, mengelola, dan memvisualisasikan silsilah keluarga secara interaktif.
+B-Silsilah adalah aplikasi berbasis web yang dirancang untuk mempermudah Anda dalam membuat, mengelola, dan memvisualisasikan silsilah keluarga secara interaktif.
 
 ## Fitur Utama
 
