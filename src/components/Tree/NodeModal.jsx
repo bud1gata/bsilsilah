@@ -31,12 +31,12 @@ export const NodeModal = ({ node, onClose, onAddRelation, onEdit, onDelete, isRe
           <div className="space-y-4">
             <div>
               <h4 className="text-sm font-medium text-slate-500 mb-1">Tanggal Lahir</h4>
-              <p className="text-slate-900">{data.birthDate || '-'}</p>
+              <p className="text-slate-900">{data.birthDate ? new Date(data.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'}</p>
             </div>
             {data.deathDate && (
               <div>
                 <h4 className="text-sm font-medium text-slate-500 mb-1">Tanggal Wafat</h4>
-                <p className="text-slate-900">{data.deathDate}</p>
+                <p className="text-slate-900">{new Date(data.deathDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
             )}
             
