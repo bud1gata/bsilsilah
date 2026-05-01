@@ -66,3 +66,68 @@ exports.deleteTree = async (req, res) => {
     res.status(500).json({ success: false, message: 'Gagal menghapus silsilah.' });
   }
 };
+
+// @route   PUT /api/trees/:id/share
+// @desc    Toggle share link (generate token or remove it)
+const crypto = require('crypto');
+
+exports.toggleShare = async (req, res) => {
+  try {
+    const tree = await Tree.findOne({ _id: req.params.id, createdBy: req.user._id });
+    if (!tree) {
+      return res.status(404).json({ success: false, message: 'Silsilah tidak ditemukan.' });
+    }
+
+    if (tree.shareToken) {
+      // Already shared -> remove share
+      tree.shareToken = null;
+    } else {
+      // Not shared -> generate token
+      tree.shareToken = crypto.randomBytes(16).toString('hex');
+    }
+
+    await tree.save();
+    res.json({ success: true, data: tree });
+  } catch (error) {
+    console.error('ToggleShare error:', error);
+    res.status(500).json({ success: false, message: 'Gagal mengubah status berbagi.' });
+  }
+};
+
+// @route   GET /api/trees/share/:shareToken
+// @desc    Get shared tree info (PUBLIC - no auth required)
+exports.getSharedTree = async (req, res) => {
+  try {
+    const tree = await Tree.findOne({ shareToken: req.params.shareToken })
+      .populate('createdBy', 'name firstName lastName');
+    if (!tree) {
+      return res.status(404).json({ success: false, message: 'Silsilah tidak ditemukan atau link sudah tidak aktif.' });
+    }
+    res.json({ success: true, data: tree });
+  } catch (error) {
+    console.error('GetSharedTree error:', error);
+    res.status(500).json({ success: false, message: 'Gagal mengambil data silsilah.' });
+  }
+};
+
+// @route   GET /api/trees/share/:shareToken/persons
+// @desc    Get persons of shared tree (PUBLIC - no auth required)
+exports.getSharedTreePersons = async (req, res) => {
+  try {
+    const tree = await Tree.findOne({ shareToken: req.params.shareToken });
+    if (!tree) {
+      return res.status(404).json({ success: false, message: 'Silsilah tidak ditemukan atau link sudah tidak aktif.' });
+    }
+
+    const persons = await Person.find({ treeId: tree._id })
+      .populate('parents', 'firstName lastName gender')
+      .populate('spouses', 'firstName lastName gender')
+      .populate('children', 'firstName lastName gender')
+      .sort({ createdAt: 1 });
+
+    res.json({ success: true, data: persons });
+  } catch (error) {
+    console.error('GetSharedTreePersons error:', error);
+    res.status(500).json({ success: false, message: 'Gagal mengambil data silsilah.' });
+  }
+};
