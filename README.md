@@ -1,16 +1,58 @@
-# React + Vite
+# Family Tree Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Family Tree Tracker adalah aplikasi berbasis web yang dirancang untuk mempermudah Anda dalam membuat, mengelola, dan memvisualisasikan silsilah keluarga secara interaktif.
 
-Currently, two official plugins are available:
+## Fitur Utama
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Visualisasi Interaktif**: Menampilkan silsilah keluarga dalam bentuk bagan interaktif (menggunakan React Flow & Dagre).
+- **Multi-Silsilah**: Mendukung pembuatan banyak silsilah yang berbeda dalam satu akun pengguna.
+- **Drag & Drop Layout**: Anda dapat mengubah tata letak posisi anggota keluarga dengan mudah, dan posisi tersebut akan tersimpan secara otomatis ke database.
+- **Manajemen Relasi Lengkap**: Mendukung penambahan berbagai jenis relasi seperti Orang Tua, Anak, dan Pasangan.
+- **Sistem Autentikasi**: Fitur pendaftaran dan login pengguna yang aman menggunakan JWT.
 
-## React Compiler
+## Teknologi yang Digunakan
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Frontend:**
+- React (Vite)
+- Tailwind CSS
+- React Flow (untuk visualisasi kanvas interaktif)
+- Dagre (untuk algoritma *auto-layout*)
+- React Router DOM
+- Axios
 
-## Expanding the ESLint configuration
+**Backend:**
+- Node.js & Express.js
+- MongoDB & Mongoose (Database)
+- JWT (JSON Web Token) untuk Autentikasi
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Cara Menjalankan Secara Lokal
+
+1. **Install dependensi**
+   - Buka terminal untuk direktori *backend*: `cd server && npm install`
+   - Buka terminal untuk direktori *frontend*: `npm install`
+
+2. **Konfigurasi Environment Variable (.env)**
+   - Buat file `.env` di dalam folder `server` dengan konfigurasi dasar berikut:
+     ```env
+     PORT=5000
+     MONGO_URI=mongodb://localhost:27017/bsilsilah
+     JWT_SECRET=rahasia_jwt_anda
+     ```
+   - Buat file `.env` di direktori utama (*root*) aplikasi (untuk *frontend*) berisi:
+     ```env
+     VITE_API_URL=http://localhost:5000/api
+     ```
+
+3. **Jalankan Aplikasi**
+   - Menjalankan Backend: `cd server && npm run dev`
+   - Menjalankan Frontend: `npm run dev`
+
+---
+
+## Kontak Person
+
+Aplikasi ini dikembangkan oleh:
+
+- **Nama / Username:** bud1gata
+- **GitHub:** [https://github.com/bud1gata](https://github.com/bud1gata)
+- **Email:** [me@budiputra"dot"web"dot"id]
