@@ -80,7 +80,7 @@ exports.toggleShare = async (req, res) => {
 
     if (tree.shareToken) {
       // Already shared -> remove share
-      tree.shareToken = null;
+      tree.shareToken = undefined;
     } else {
       // Not shared -> generate token
       tree.shareToken = crypto.randomBytes(16).toString('hex');

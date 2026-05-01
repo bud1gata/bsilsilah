@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, UserPlus, Edit2, Trash2 } from 'lucide-react';
 import { Button } from '../UI/Button';
+import { getBaseUrl } from '../../services/api';
 
 export const NodeModal = ({ node, onClose, onAddRelation, onEdit, onDelete, isReadOnly }) => {
   if (!node) return null;
@@ -19,9 +20,13 @@ export const NodeModal = ({ node, onClose, onAddRelation, onEdit, onDelete, isRe
 
         <div className="flex-1 overflow-y-auto p-6">
           <div className="flex flex-col items-center mb-8">
-            <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-4 ${data.gender === 'male' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600'}`}>
-              <span className="text-3xl font-bold">{data.name.charAt(0)}</span>
-            </div>
+            {data.photoUrl ? (
+              <img src={`${getBaseUrl()}${data.photoUrl}`} alt={data.name} className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-white shadow-md" />
+            ) : (
+              <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-4 ${data.gender === 'male' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600'}`}>
+                <span className="text-3xl font-bold">{data.name.charAt(0)}</span>
+              </div>
+            )}
             <h3 className="text-2xl font-bold text-slate-900 text-center">{data.name}</h3>
             <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800 mt-2 capitalize">
               {data.gender === 'male' ? 'Laki-laki' : 'Perempuan'}

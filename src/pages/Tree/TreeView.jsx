@@ -217,6 +217,7 @@ const TreeView = () => {
         gender: data.gender,
         birthDate: data.birthDate || null,
         deathDate: data.deathDate || null,
+        photoUrl: data.photoUrl || undefined,
       };
 
       await api.put(`/persons/${nodeId}`, payload);
@@ -253,6 +254,7 @@ const TreeView = () => {
         gender: data.gender,
         birthDate: data.birthDate || null,
         treeId: id, // Pass treeId from URL params
+        photoUrl: data.photoUrl || undefined,
       };
 
       if (!sourceId) {

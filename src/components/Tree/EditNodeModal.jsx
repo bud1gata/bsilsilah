@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, Upload, Image as ImageIcon } from 'lucide-react';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
+import api, { getBaseUrl } from '../../services/api';
 
 export const EditNodeModal = ({ node, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,20 @@ export const EditNodeModal = ({ node, onClose, onSave }) => {
 
   // Track relation changes to send together on save
   const [relationChanges, setRelationChanges] = useState([]);
+
+  // Photo
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPhotoFile(file);
+      setPhotoPreview(URL.createObjectURL(file));
+    }
+  };
 
   useEffect(() => {
     if (node && node.data) {
@@ -28,15 +43,36 @@ export const EditNodeModal = ({ node, onClose, onSave }) => {
         gender: node.data.gender || 'male',
         birthDate: node.data.birthDate ? new Date(node.data.birthDate).toISOString().split('T')[0] : '',
         deathDate: node.data.deathDate ? new Date(node.data.deathDate).toISOString().split('T')[0] : '',
+        photoUrl: node.data.photoUrl || '',
       });
       
       setRelationChanges([]); // reset
+      setPhotoPreview(node.data.photoUrl ? `${getBaseUrl()}${node.data.photoUrl}` : null);
+      setPhotoFile(null);
     }
   }, [node]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(node.id, formData, relationChanges);
+    setIsUploading(true);
+    let finalPhotoUrl = formData.photoUrl;
+
+    try {
+      if (photoFile) {
+        const uploadData = new FormData();
+        uploadData.append('photo', photoFile);
+        const res = await api.post('/upload', uploadData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        finalPhotoUrl = res.data.data.photoUrl;
+      }
+      
+      await onSave(node.id, { ...formData, photoUrl: finalPhotoUrl }, relationChanges);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Gagal menyimpan profil');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleQueueRelationChange = (targetId, newType) => {
@@ -64,6 +100,38 @@ export const EditNodeModal = ({ node, onClose, onSave }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <div className="flex items-center gap-4 mb-2">
+            <div 
+              className="w-20 h-20 rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 overflow-hidden cursor-pointer hover:border-indigo-400 transition-colors"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {photoPreview ? (
+                <img src={photoPreview.startsWith('blob:') ? photoPreview : `${getBaseUrl()}${formData.photoUrl}`} alt="Preview" className="w-full h-full object-cover" onError={(e) => e.target.src = photoPreview} />
+              ) : (
+                <ImageIcon className="w-8 h-8 text-slate-400" />
+              )}
+            </div>
+            <div className="flex-1">
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload className="w-4 h-4" />
+                Ganti Foto Profil
+              </Button>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                className="hidden" 
+                accept="image/jpeg,image/png,image/webp,image/avif" 
+                onChange={handlePhotoChange}
+              />
+              {photoFile && <p className="text-xs text-slate-500 mt-1 truncate">{photoFile.name}</p>}
+            </div>
+          </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-700">Nama Depan</label>
             <Input 
@@ -187,8 +255,10 @@ export const EditNodeModal = ({ node, onClose, onSave }) => {
           </div>
 
           <div className="pt-4 flex gap-3 mt-4 border-t border-slate-100">
-            <Button type="button" variant="outline" className="flex-1" onClick={onClose}>Tutup</Button>
-            <Button type="submit" className="flex-1">Simpan Profil</Button>
+            <Button type="button" variant="outline" className="flex-1" onClick={onClose} disabled={isUploading}>Tutup</Button>
+            <Button type="submit" className="flex-1" disabled={isUploading}>
+              {isUploading ? 'Menyimpan...' : 'Simpan Profil'}
+            </Button>
           </div>
         </form>
       </div>

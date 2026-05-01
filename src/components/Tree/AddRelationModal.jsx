@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { X, Upload, Image as ImageIcon } from 'lucide-react';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
+import api from '../../services/api';
 
 export const AddRelationModal = ({ sourceNode, onClose, onSave }) => {
   const [relationType, setRelationType] = useState('child'); // parent, child, spouse
@@ -11,9 +12,40 @@ export const AddRelationModal = ({ sourceNode, onClose, onSave }) => {
     birthDate: '',
   });
 
-  const handleSubmit = (e) => {
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPhotoFile(file);
+      setPhotoPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(sourceNode?.id, relationType, formData);
+    setIsUploading(true);
+    let photoUrl = '';
+
+    try {
+      if (photoFile) {
+        const uploadData = new FormData();
+        uploadData.append('photo', photoFile);
+        const res = await api.post('/upload', uploadData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        photoUrl = res.data.data.photoUrl;
+      }
+      
+      await onSave(sourceNode?.id, relationType, { ...formData, photoUrl });
+    } catch (err) {
+      alert(err.response?.data?.message || 'Gagal mengunggah foto');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -82,9 +114,47 @@ export const AddRelationModal = ({ sourceNode, onClose, onSave }) => {
             />
           </div>
 
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700">Foto Profil (Opsional)</label>
+            <div className="flex items-center gap-4">
+              <div 
+                className="w-16 h-16 rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 overflow-hidden cursor-pointer hover:border-indigo-400 transition-colors"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {photoPreview ? (
+                  <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                ) : (
+                  <ImageIcon className="w-6 h-6 text-slate-400" />
+                )}
+              </div>
+              <div className="flex-1">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  className="gap-2"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="w-4 h-4" />
+                  {photoFile ? 'Ganti Foto' : 'Pilih Foto'}
+                </Button>
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  className="hidden" 
+                  accept="image/jpeg,image/png,image/webp,image/avif" 
+                  onChange={handlePhotoChange}
+                />
+                {photoFile && <p className="text-xs text-slate-500 mt-1 truncate">{photoFile.name}</p>}
+              </div>
+            </div>
+          </div>
+
           <div className="pt-4 flex gap-3">
-            <Button type="button" variant="outline" className="flex-1" onClick={onClose}>Batal</Button>
-            <Button type="submit" className="flex-1">Simpan</Button>
+            <Button type="button" variant="outline" className="flex-1" onClick={onClose} disabled={isUploading}>Batal</Button>
+            <Button type="submit" className="flex-1" disabled={isUploading}>
+              {isUploading ? 'Menyimpan...' : 'Simpan'}
+            </Button>
           </div>
         </form>
       </div>

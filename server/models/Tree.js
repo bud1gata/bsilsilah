@@ -12,9 +12,8 @@ const treeSchema = new mongoose.Schema({
   },
   shareToken: {
     type: String,
-    default: null,
     unique: true,
-    sparse: true, // Allow multiple nulls
+    sparse: true, // Ignores undefined
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

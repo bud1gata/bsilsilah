@@ -2,6 +2,7 @@ import React from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { User, UserRound } from 'lucide-react';
 import { cn } from '../UI/Button';
+import { getBaseUrl } from '../../services/api';
 
 // Custom node for React Flow
 export const FamilyNode = ({ data, selected }) => {
@@ -24,7 +25,7 @@ export const FamilyNode = ({ data, selected }) => {
           isMale ? "bg-blue-50 text-blue-600" : "bg-pink-50 text-pink-600"
         )}>
           {data.photoUrl ? (
-            <img src={data.photoUrl} alt={data.name} className="w-12 h-12 rounded-full object-cover" />
+            <img src={`${getBaseUrl()}${data.photoUrl}`} alt={data.name} className="w-12 h-12 rounded-full object-cover" />
           ) : (
             isMale ? <User className="w-6 h-6" /> : <UserRound className="w-6 h-6" />
           )}
