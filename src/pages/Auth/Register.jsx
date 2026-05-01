@@ -49,7 +49,7 @@ const Register = () => {
         <div className="flex justify-center mb-8">
           <Link to="/" className="flex items-center gap-2">
             <Network className="h-10 w-10 text-indigo-600" />
-            <span className="font-bold text-2xl text-slate-900">FamTree</span>
+            <span className="font-bold text-2xl text-slate-900">B-Silsilah</span>
           </Link>
         </div>
         

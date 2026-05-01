@@ -179,3 +179,48 @@ exports.changePassword = async (req, res) => {
     });
   }
 };
+
+// @route   PUT /api/auth/profile
+// @desc    Update current user's profile (name, email)
+exports.updateProfile = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User tidak ditemukan' });
+    }
+
+    if (email && email !== user.email) {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ success: false, message: 'Email sudah digunakan' });
+      }
+      user.email = email;
+    }
+
+    if (name) {
+      user.name = name;
+    }
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Profil berhasil diperbarui.',
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+        }
+      }
+    });
+  } catch (error) {
+    console.error('UpdateProfile error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Terjadi kesalahan pada server.',
+    });
+  }
+};
