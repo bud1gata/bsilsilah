@@ -29,6 +29,19 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'BSilsilah API is running' });
 });
 
+// Serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../dist')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../', 'dist', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running... (Development Mode)');
+  });
+}
+
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;
 
